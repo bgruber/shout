@@ -49,10 +49,17 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to Shout</h2>
         </div>
-        <p className="App-intro" style={{fontSize: 72, textAlign: 'center'}}>
-          {this.state.chant[this.state.cursor%this.state.chant.length]} <br />
-          {this.state.cursor}
-        </p>
+        <div className="App-intro" style={{fontSize: 72, textAlign: 'center'}}>
+          {this.state.chant.map((c, i)=>{
+            const isHighlighted = i == this.state.cursor%this.state.chant.length;
+            return(
+              <div style={{backgroundColor: (isHighlighted) ? 'red' : 'white'}}>
+                {this.state.chant[i]}
+              </div>
+            );
+          })}
+        </div>
+        <p>{this.state.cursor}</p>
       </div>
     );
   }
