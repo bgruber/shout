@@ -4,13 +4,18 @@
   "description": "you know you make me wanna",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "babel-node server.js",
+    "client": "babel-node start-client.js",
+    "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
+    "lint": "eslint ."
   },
   "author": "adamd and bgruber and rick",
   "license": "UNLICENSED",
   "repository": "bgruber/shout",
   "dependencies": {
+    "babel-cli": "^6.24.1",
+    "concurrently": "^3.4.0",
     "express": "^4.15.2",
     "timesync": "^0.3.1"
   }
