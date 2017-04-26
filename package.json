@@ -1,0 +1,17 @@
+{
+  "name": "shout",
+  "version": "1.0.0",
+  "description": "you know you make me wanna",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "adamd and bgruber and rick",
+  "license": "UNLICENSED",
+  "repository": "bgruber/shout",
+  "dependencies": {
+    "express": "^4.15.2",
+    "timesync": "^0.3.1"
+  }
+}
