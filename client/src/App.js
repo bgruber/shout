@@ -1,6 +1,10 @@
+import {create as timesync} from 'timesync';
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+
+// for debugging in js console...
+window.timesync = timesync
 
 class App extends Component {
   render() {
