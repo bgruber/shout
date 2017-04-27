@@ -13,26 +13,34 @@ var ts = timesync({
 var vibrationRatio = 0.25;
 var downbeatRato = 0.5;
 
+const WAIT_FOR_SYNC = 0;
+const COUNTDOWN = 1;
+const CHANTING = 2;
+
 class App extends Component {
+
   constructor(props){
     super(props);
-    this.incrementCursor = this.incrementCursor.bind(this);
     this.setCursor = this.setCursor.bind(this);
     this.startCursor = this.startCursor.bind(this);
     this.waitForTime = this.waitForTime.bind(this);
     this.state = {
-      cursor: 0,
       chant: [
         "no",
         "ban",
         "you",
         "suck"
-      ]
+      ],
+      stage: WAIT_FOR_SYNC
     };
   }
 
   setCursor() {
     var newCursor = Math.floor((ts.now() / intervalMs)) % this.state.chant.length
+
+    var newStage = (newCursor === 0)
+	? Math.min(this.state.stage + 1, CHANTING)
+	: this.state.stage;
 
     if (newCursor === 0) {
       var stepTime = intervalMs;
@@ -44,17 +52,14 @@ class App extends Component {
       for(var i = 1; i !== this.state.chant.length; i++) {
 	       vibrationPattern.push(vibTime, restTime);
       }
-      navigator.vibrate( vibrationPattern)
+      if (navigator.vibrate) {
+	navigator.vibrate( vibrationPattern)
+      }
     }
 
     this.setState({
-      cursor: newCursor
-    });
-  }
-
-  incrementCursor() {
-    this.setState({
-      cursor: (this.state.cursor + 1)
+      cursor: newCursor,
+      stage: newStage
     });
   }
 
@@ -78,12 +83,12 @@ class App extends Component {
 	       interval: undefined
       });
     }
+
     // we want to calculate the amount of time between now and the
     // next point at which the sync'd time is an even multiple of intervalMs.
     var now = ts.now();
     var cNow = Math.ceil(now);
     var nextEvenMultiple = cNow + intervalMs - (cNow % intervalMs);
-    nextEvenMultiple += intervalMs; // add on an extra interval in case we'll miss the first one in the time it takes to calculate
     var waitTime = nextEvenMultiple - ts.now();
     setTimeout(this.startCursor, waitTime);
   }
@@ -117,6 +122,8 @@ class App extends Component {
             })}
           </div>
         </div>
+        <p>{this.state.cursor}</p>
+	<p>{this.state.stage}</p>
       </div>
     );
   }
