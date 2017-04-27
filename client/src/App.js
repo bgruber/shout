@@ -10,6 +10,8 @@ var intervalMs = 1000;
 var ts = timesync({
   server: '/timesync'
 });
+var vibrationRatio = 0.25;
+var downbeatRato = 0.5;
 
 class App extends Component {
   constructor(props){
@@ -30,8 +32,23 @@ class App extends Component {
   }
 
   setCursor() {
+    var newCursor = Math.floor((ts.now() / intervalMs)) % this.state.chant.length
+
+    if (newCursor == 0) {
+      var stepTime = intervalMs;
+      var vibTime = Math.floor(stepTime * vibrationRatio);
+      var restTime = stepTime - vibTime;
+      var downBeat = Math.floor(stepTime * downbeatRato);
+      var downRest = stepTime - downBeat;
+      var vibrationPattern = [downBeat, downRest];
+      for(var i = 1; i !== this.state.chant.length; i++) {
+	vibrationPattern.push(vibTime, restTime);
+      }
+      navigator.vibrate( vibrationPattern)
+    }
+
     this.setState({
-      cursor: Math.floor((ts.now() / intervalMs)) % this.state.chant.length
+      cursor: newCursor
     });
   }
 
