@@ -93,6 +93,13 @@ class App extends Component {
   }
 
   render() {
+    const chantColors = [
+      '#00A8FF',
+      '#00D13F',
+      '#FFCE00',
+      '#E71614',
+    ];
+
     return (
       <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
         <div style={{flex: 0, backgroundColor: '#0F1721', color: 'rgba(255,255,255,.5)', textAlign: 'center'}}>
@@ -103,7 +110,7 @@ class App extends Component {
             {this.state.chant.map((c, i)=>{
               const isHighlighted = i == this.state.cursor;
               return(
-                <div style={{display: 'flex', flex: 1, backgroundColor: (isHighlighted) ? '#ED1C40' : 'transparent', alignItems: 'center', justifyContent: 'center'}}>
+                <div style={{boxSizing: 'border-box', borderTop: '1px solid #1F24CC', display: 'flex', flex: 1, backgroundColor: chantColors[i%chantColors.length], opacity: (isHighlighted) ? 1 : .35, alignItems: 'center', justifyContent: 'center', textTransform: 'uppercase'}}>
                   <div>{this.state.chant[i]}</div>
                 </div>
               );
