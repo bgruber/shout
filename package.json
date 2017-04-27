@@ -4,10 +4,11 @@
   "description": "you know you make me wanna",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "npm run server",
     "server": "babel-node server.js",
     "client": "babel-node start-client.js",
-    "dev": "echo \"This command has been deprecated. Use 'npm start'\" && exit 1",
+    "build": "babel-node build-client.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "lint": "eslint ."
   },
   "author": "adamd and bgruber and rick",

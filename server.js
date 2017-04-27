@@ -7,8 +7,12 @@ var app = express();
 app.listen(port);
 console.log('Server listening at http://localhost:' + port);
 
-// serve static index.html
-app.get('/', express.static(__dirname));
-
 // handle timesync requests
 app.use('/timesync', timesyncServer.requestHandler);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+} else {
+  // serve static index.html
+  app.get('/', express.static(__dirname));
+}
