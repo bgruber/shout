@@ -1,5 +1,6 @@
 import {create as timesync} from 'timesync';
 import React, { Component } from 'react';
+import Enum from 'es6-enum';
 import logo from './logo.svg';
 import './App.css';
 
@@ -13,7 +14,10 @@ var ts = timesync({
 var vibrationRatio = 0.25;
 var downbeatRato = 0.5;
 
+const STAGE = Enum("WAIT_FOR_SYNC", "COUNTDOWN", "CHANTING");
+
 class App extends Component {
+
   constructor(props){
     super(props);
     this.incrementCursor = this.incrementCursor.bind(this);
@@ -27,7 +31,8 @@ class App extends Component {
         "ban",
         "you",
         "suck"
-      ]
+      ],
+      stage: STAGE.WAIT_FOR_SYNC
     };
   }
 
@@ -61,6 +66,7 @@ class App extends Component {
   startCursor() {
     // interval start
     this.setState({
+      stage: STAGE.CHANTING,
       interval: setInterval(this.setCursor, intervalMs)
     });
   }
@@ -78,12 +84,13 @@ class App extends Component {
 	       interval: undefined
       });
     }
-    // we want to calculate the amount of time between now and the
-    // next point at which the sync'd time is an even multiple of intervalMs.
-    var now = ts.now();
-    var cNow = Math.ceil(now);
-    var nextEvenMultiple = cNow + intervalMs - (cNow % intervalMs);
-    nextEvenMultiple += intervalMs; // add on an extra interval in case we'll miss the first one in the time it takes to calculate
+
+    // calculate the amount of time between now and the next point at
+    // which the sync'd time will make it time for the first part of
+    // the chant
+    var cNow = Math.ceil(ts.now());
+    var chantTime = intervalMs * this.state.chant.length
+    var nextEvenMultiple = cNow + chantTime - (cNow % chantTime);
     var waitTime = nextEvenMultiple - ts.now();
     setTimeout(this.startCursor, waitTime);
   }
@@ -117,6 +124,8 @@ class App extends Component {
             })}
           </div>
         </div>
+        <p>{this.state.cursor}</p>
+	<p>{this.state.stage.toString()}</p>
       </div>
     );
   }
