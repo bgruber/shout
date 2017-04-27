@@ -52,7 +52,9 @@ class App extends Component {
       for(var i = 1; i !== this.state.chant.length; i++) {
 	       vibrationPattern.push(vibTime, restTime);
       }
-      navigator.vibrate( vibrationPattern)
+      if (navigator.vibrate) {
+	navigator.vibrate( vibrationPattern)
+      }
     }
 
     this.setState({
