@@ -1,0 +1,8 @@
+{
+  "name": "shout",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "type": "docker",
+  "alias": "shout.now.sh"
+}
