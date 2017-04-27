@@ -102,15 +102,15 @@ class App extends Component {
 
     return (
       <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
-        <div style={{flex: 0, backgroundColor: '#0F1721', color: 'rgba(255,255,255,.5)', textAlign: 'center'}}>
-          <p>shout.group</p>
+        <div style={{fontWeight: 100, letterSpacing: 2, flex: 0, backgroundColor: '#0F1721', color: 'rgba(255,255,255,.5)', textAlign: 'center'}}>
+          <p>shout.group {this.state.cursor}</p>
         </div>
-        <div style={{flex: 1, backgroundColor: '#1F24CC', color: '#fff'}}>
+        <div style={{flex: 1, backgroundColor: '#0F1721', color: '#fff'}}>
           <div style={{display: 'flex', flexDirection: 'column', fontSize: 72, fontWeight: 'bold', textAlign: 'center', height: '100%'}}>
             {this.state.chant.map((c, i)=>{
               const isHighlighted = i == this.state.cursor;
               return(
-                <div style={{boxSizing: 'border-box', borderTop: '1px solid #1F24CC', display: 'flex', flex: 1, backgroundColor: chantColors[i%chantColors.length], opacity: (isHighlighted) ? 1 : .35, alignItems: 'center', justifyContent: 'center', textTransform: 'uppercase'}}>
+                <div style={{boxSizing: 'border-box', borderTop: '1px solid #000', display: 'flex', flex: 1, backgroundColor: chantColors[i%chantColors.length], opacity: (isHighlighted) ? 1 : .45, alignItems: 'center', justifyContent: 'center', textTransform: 'uppercase'}}>
                   <div>{this.state.chant[i]}</div>
                 </div>
               );
