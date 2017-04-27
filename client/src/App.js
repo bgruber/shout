@@ -1,6 +1,5 @@
 import {create as timesync} from 'timesync';
 import React, { Component } from 'react';
-import Enum from 'es6-enum';
 import logo from './logo.svg';
 import './App.css';
 
@@ -14,7 +13,9 @@ var ts = timesync({
 var vibrationRatio = 0.25;
 var downbeatRato = 0.5;
 
-const STAGE = Enum("WAIT_FOR_SYNC", "COUNTDOWN", "CHANTING");
+const WAIT_FOR_SYNC = 0;
+const COUNTDOWN = 1;
+const CHANTING = 2;
 
 class App extends Component {
 
@@ -24,19 +25,22 @@ class App extends Component {
     this.startCursor = this.startCursor.bind(this);
     this.waitForTime = this.waitForTime.bind(this);
     this.state = {
-      cursor: 0,
       chant: [
         "no",
         "ban",
         "you",
         "suck"
       ],
-      stage: STAGE.WAIT_FOR_SYNC
+      stage: WAIT_FOR_SYNC
     };
   }
 
   setCursor() {
     var newCursor = Math.floor((ts.now() / intervalMs)) % this.state.chant.length
+
+    var newStage = (newCursor === 0)
+	? Math.min(this.state.stage + 1, CHANTING)
+	: this.state.stage;
 
     if (newCursor === 0) {
       var stepTime = intervalMs;
@@ -52,14 +56,14 @@ class App extends Component {
     }
 
     this.setState({
-      cursor: newCursor
+      cursor: newCursor,
+      stage: newStage
     });
   }
 
   startCursor() {
     // interval start
     this.setState({
-      stage: STAGE.CHANTING,
       interval: setInterval(this.setCursor, intervalMs)
     });
   }
@@ -78,12 +82,11 @@ class App extends Component {
       });
     }
 
-    // calculate the amount of time between now and the next point at
-    // which the sync'd time will make it time for the first part of
-    // the chant
-    var cNow = Math.ceil(ts.now());
-    var chantTime = intervalMs * this.state.chant.length
-    var nextEvenMultiple = cNow + chantTime - (cNow % chantTime);
+    // we want to calculate the amount of time between now and the
+    // next point at which the sync'd time is an even multiple of intervalMs.
+    var now = ts.now();
+    var cNow = Math.ceil(now);
+    var nextEvenMultiple = cNow + intervalMs - (cNow % intervalMs);
     var waitTime = nextEvenMultiple - ts.now();
     setTimeout(this.startCursor, waitTime);
   }
@@ -118,7 +121,7 @@ class App extends Component {
           </div>
         </div>
         <p>{this.state.cursor}</p>
-	<p>{this.state.stage.toString()}</p>
+	<p>{this.state.stage}</p>
       </div>
     );
   }
