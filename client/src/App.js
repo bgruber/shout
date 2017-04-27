@@ -6,7 +6,7 @@ import './App.css';
 // for debugging in js console...
 window.timesync = timesync;
 
-var intervalMs = 1000;
+var intervalMs = 750;
 var ts = timesync({
   server: '/timesync'
 });
