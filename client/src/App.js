@@ -20,7 +20,6 @@ class App extends Component {
 
   constructor(props){
     super(props);
-    this.incrementCursor = this.incrementCursor.bind(this);
     this.setCursor = this.setCursor.bind(this);
     this.startCursor = this.startCursor.bind(this);
     this.waitForTime = this.waitForTime.bind(this);
@@ -54,12 +53,6 @@ class App extends Component {
 
     this.setState({
       cursor: newCursor
-    });
-  }
-
-  incrementCursor() {
-    this.setState({
-      cursor: (this.state.cursor + 1)
     });
   }
 
