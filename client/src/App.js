@@ -110,7 +110,7 @@ class App extends Component {
             {this.state.chant.map((c, i)=>{
               const isHighlighted = i == this.state.cursor;
               return(
-                <div style={{boxSizing: 'border-box', borderTop: '1px solid #000', display: 'flex', flex: 1, backgroundColor: chantColors[i%chantColors.length], opacity: (isHighlighted) ? 1 : .45, alignItems: 'center', justifyContent: 'center', textTransform: 'uppercase'}}>
+                <div key={i} style={{boxSizing: 'border-box', borderTop: '1px solid #000', display: 'flex', flex: 1, backgroundColor: chantColors[i%chantColors.length], opacity: (isHighlighted) ? 1 : .45, alignItems: 'center', justifyContent: 'center', textTransform: 'uppercase'}}>
                   <div>{this.state.chant[i]}</div>
                 </div>
               );
