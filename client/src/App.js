@@ -34,7 +34,7 @@ class App extends Component {
   setCursor() {
     var newCursor = Math.floor((ts.now() / intervalMs)) % this.state.chant.length
 
-    if (newCursor == 0) {
+    if (newCursor === 0) {
       var stepTime = intervalMs;
       var vibTime = Math.floor(stepTime * vibrationRatio);
       var restTime = stepTime - vibTime;
@@ -65,8 +65,12 @@ class App extends Component {
     });
   }
 
-  waitForTime(offset) {
-    console.log('changed offset: ' + offset + 'ms')
+  waitForTime(tsState) {
+    console.log('timesync state: ' + tsState);
+    if (tsState !== "end") {
+      return;
+    }
+
     if (this.state.interval !== undefined) {
       console.log('clearing interval')
       clearInterval(this.state.interval)
@@ -85,7 +89,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    ts.on('change', this.waitForTime)
+    ts.on('sync', this.waitForTime)
   }
 
   render() {
