@@ -4,13 +4,20 @@ import logo from './logo.svg';
 import './App.css';
 
 // for debugging in js console...
-window.timesync = timesync
+window.timesync = timesync;
+
+var intervalMs = 1000;
+var ts = timesync({
+  server: '/timesync'
+});
 
 class App extends Component {
   constructor(props){
     super(props);
     this.incrementCursor = this.incrementCursor.bind(this);
+    this.setCursor = this.setCursor.bind(this);
     this.startCursor = this.startCursor.bind(this);
+    this.waitForTime = this.waitForTime.bind(this);
     this.state = {
       cursor: 0,
       chant: [
@@ -22,24 +29,46 @@ class App extends Component {
     };
   }
 
+  setCursor() {
+    this.setState({
+      cursor: Math.floor((ts.now() / intervalMs)) % this.state.chant.length
+    });
+  }
+
   incrementCursor() {
     this.setState({
       cursor: (this.state.cursor + 1)
     });
   }
 
-  startCursor(){
+  startCursor() {
     // interval start
     this.setState({
-      interval: setInterval( this.incrementCursor, 1000)
+      interval: setInterval(this.setCursor, intervalMs)
     });
   }
 
-  componentDidMount() {
-    // init timesync?
+  waitForTime(offset) {
+    console.log('changed offset: ' + offset + 'ms')
+    if (this.state.interval !== undefined) {
+      console.log('clearing interval')
+      clearInterval(this.state.interval)
+      this.setState({
+	interval: undefined
+      });
+    }
+    // we want to calculate the amount of time between now and the
+    // next point at which the sync'd time is an even multiple of intervalMs.
+    var now = ts.now();
+    var cNow = Math.ceil(now);
+    var nextEvenMultiple = cNow + intervalMs - (cNow % intervalMs);
+    nextEvenMultiple += intervalMs; // add on an extra interval in case we'll miss the first one in the time it takes to calculate
+    var waitTime = nextEvenMultiple - ts.now();
+    setTimeout(this.startCursor, waitTime);
+  }
 
-    // use timeout to decide when to call startcursor?
-    this.startCursor();
+  componentDidMount() {
+    ts.on('change', this.waitForTime)
   }
 
   render() {
@@ -51,7 +80,7 @@ class App extends Component {
         </div>
         <div className="App-intro" style={{fontSize: 72, textAlign: 'center'}}>
           {this.state.chant.map((c, i)=>{
-            const isHighlighted = i == this.state.cursor%this.state.chant.length;
+            const isHighlighted = i == this.state.cursor;
             return(
               <div style={{backgroundColor: (isHighlighted) ? 'red' : 'white'}}>
                 {this.state.chant[i]}
