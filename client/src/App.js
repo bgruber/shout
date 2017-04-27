@@ -6,7 +6,7 @@ import './App.css';
 // for debugging in js console...
 window.timesync = timesync;
 
-var intervalMs = 750;
+var intervalMs = 600;
 var ts = timesync({
   server: '/timesync'
 });
@@ -26,10 +26,10 @@ class App extends Component {
     this.waitForTime = this.waitForTime.bind(this);
     this.state = {
       chant: [
-        "no",
-        "ban",
-        "you",
-        "suck"
+	"use",
+	"the",
+	"force",
+	"luke"
       ],
       stage: WAIT_FOR_SYNC
     };
