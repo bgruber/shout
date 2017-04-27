@@ -105,8 +105,8 @@ class App extends Component {
         <div style={{fontWeight: 100, letterSpacing: 2, flex: 0, backgroundColor: '#0F1721', color: 'rgba(255,255,255,.5)', textAlign: 'center'}}>
           <p>shout.group {this.state.cursor}</p>
         </div>
-        <div style={{flex: 1, backgroundColor: '#0F1721', color: '#fff'}}>
-          <div style={{display: 'flex', flexDirection: 'column', fontSize: 72, fontWeight: 'bold', textAlign: 'center', height: '100%'}}>
+        <div style={{display: 'flex', flex: 1, backgroundColor: '#0F1721', color: '#fff', width: '100%'}}>
+          <div style={{display: 'flex', flexDirection: 'column', fontSize: 72, fontWeight: 'bold', textAlign: 'center',width: '100%'}}>
             {this.state.chant.map((c, i)=>{
               const isHighlighted = i == this.state.cursor;
               return(
