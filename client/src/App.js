@@ -42,7 +42,7 @@ class App extends Component {
       var downRest = stepTime - downBeat;
       var vibrationPattern = [downBeat, downRest];
       for(var i = 1; i !== this.state.chant.length; i++) {
-	vibrationPattern.push(vibTime, restTime);
+	       vibrationPattern.push(vibTime, restTime);
       }
       navigator.vibrate( vibrationPattern)
     }
@@ -94,22 +94,22 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to Shout</h2>
+      <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
+        <div style={{flex: 0}}>
+          <h2>Shout</h2>
         </div>
-        <div className="App-intro" style={{fontSize: 72, textAlign: 'center'}}>
-          {this.state.chant.map((c, i)=>{
-            const isHighlighted = i == this.state.cursor;
-            return(
-              <div style={{backgroundColor: (isHighlighted) ? 'red' : 'white'}}>
-                {this.state.chant[i]}
-              </div>
-            );
-          })}
+        <div style={{flex: 1, backgroundColor: 'blue'}}>
+          <div style={{display: 'flex', flexDirection: 'column', fontSize: 72, textAlign: 'center', height: '100%'}}>
+            {this.state.chant.map((c, i)=>{
+              const isHighlighted = i == this.state.cursor;
+              return(
+                <div style={{flex: 1, backgroundColor: (isHighlighted) ? 'red' : 'transparent'}}>
+                  {this.state.chant[i]}
+                </div>
+              );
+            })}
+          </div>
         </div>
-        <p>{this.state.cursor}</p>
       </div>
     );
   }
