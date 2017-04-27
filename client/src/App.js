@@ -75,7 +75,7 @@ class App extends Component {
       console.log('clearing interval')
       clearInterval(this.state.interval)
       this.setState({
-	interval: undefined
+	       interval: undefined
       });
     }
     // we want to calculate the amount of time between now and the
@@ -95,16 +95,16 @@ class App extends Component {
   render() {
     return (
       <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
-        <div style={{flex: 0}}>
-          <h2>Shout</h2>
+        <div style={{flex: 0, backgroundColor: '#0F1721', color: 'rgba(255,255,255,.5)', textAlign: 'center'}}>
+          <p>shout.group</p>
         </div>
-        <div style={{flex: 1, backgroundColor: 'blue'}}>
-          <div style={{display: 'flex', flexDirection: 'column', fontSize: 72, textAlign: 'center', height: '100%'}}>
+        <div style={{flex: 1, backgroundColor: '#1F24CC', color: '#fff'}}>
+          <div style={{display: 'flex', flexDirection: 'column', fontSize: 72, fontWeight: 'bold', textAlign: 'center', height: '100%'}}>
             {this.state.chant.map((c, i)=>{
               const isHighlighted = i == this.state.cursor;
               return(
-                <div style={{flex: 1, backgroundColor: (isHighlighted) ? 'red' : 'transparent'}}>
-                  {this.state.chant[i]}
+                <div style={{display: 'flex', flex: 1, backgroundColor: (isHighlighted) ? '#ED1C40' : 'transparent', alignItems: 'center', justifyContent: 'center'}}>
+                  <div>{this.state.chant[i]}</div>
                 </div>
               );
             })}
